@@ -1,0 +1,3 @@
+#!/bin/bash
+echo list '.*/DNS' | scutil | awk '{print "show "$4}' | scutil
+

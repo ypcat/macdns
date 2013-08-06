@@ -1,0 +1,19 @@
+#!/bin/bash
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH
+
+ping -c2 -t1 172.18.90.121 && dns1=172.18.90.121
+ping -c2 -t1 10.1.1.50 && dns2=10.1.1.50
+ping -c2 -t1 192.168.11.1 && dns3=192.168.11.1
+
+sudo bash -c "echo -e 'open
+d.init
+d.add ServerAddresses * $dns1 $dns2 $dns3 8.8.8.8
+d.add SearchDomains * tw.splunk.com sv.splunk.com splunk.com
+$(echo list '.*/DNS' | scutil | awk '{print "set "$4}')
+quit
+' | scutil
+#route delete 10.160.0.0/16 172.18.91.135
+#route add 10.160.0.0/16 172.18.91.135
+"
+
